@@ -11,7 +11,11 @@ const Burger = (props) => {
         return prev.concat(newCur);
     },[]);
 
-    const ingredientsDisplayed = ingredientLayers.map((ingredient,  i) => <BurgerIngredient key={`layer-${i}`} type={ingredient} />);
+    let ingredientsDisplayed = ingredientLayers.map((ingredient,  i) => <BurgerIngredient key={`layer-${i}`} type={ingredient} />);
+
+    if (ingredientsDisplayed.length === 0) {
+        ingredientsDisplayed = <p>Please start adding ingredients</p>
+    }
 
     return <div className={classes.Burger}>
             <BurgerIngredient type="bread-top" key="bread-1"/>
