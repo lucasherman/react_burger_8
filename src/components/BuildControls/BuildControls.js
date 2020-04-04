@@ -3,6 +3,11 @@ import {BuildControl} from './BuildControl/BuildControl';
 
 import classes from './BuildControls.css';
 
+const ARITHMETIC_SIGNS = {
+    add: 1,
+    subtract: -1
+};
+
 const BuildControls = (props) => {
 
     const ingredientTypesData = props.ingredientTypes.map((ingredientType) => {
@@ -13,10 +18,19 @@ const BuildControls = (props) => {
     });
 
     const buildControls = ingredientTypesData.map(
-            (ingredientType) => <BuildControl key={ingredientType.type} label={ingredientType.label} />
+            (ingredientEntry) => {
+                return <BuildControl
+                            key={ingredientEntry.type}
+                            label={ingredientEntry.label}
+                            added={() => props.ingredientAmountChanged(ingredientEntry.type, ARITHMETIC_SIGNS['add'])}
+                            removed={() => props.ingredientAmountChanged(ingredientEntry.type, ARITHMETIC_SIGNS['subtract'])}
+                            disabledLessButton = {props.disabledInfo[ingredientEntry.type]}
+                       />
+            }
         );
 
     return <div className={classes.BuildControls}>
+        <p>Burger Price: <strong>{props.burgerPrice}</strong></p>
         {buildControls}
     </div>
 }
