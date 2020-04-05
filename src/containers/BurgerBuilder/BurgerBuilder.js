@@ -7,7 +7,7 @@ const INGREDIENT_PRICES = {
     salad: 0.5,
     cheese: 0.8,
     meat: 4,
-    bacon: 1.5
+    bacon: 1.5,
 }
 
 class BurgerBuilder extends Component {
@@ -17,7 +17,7 @@ class BurgerBuilder extends Component {
             meat: 1,
             bacon: 1,
             salad: 0,
-            cheese: 1
+            cheese: 1,
         },
         totalPrice: INGREDIENT_PRICES['bread']
     }
@@ -26,7 +26,7 @@ class BurgerBuilder extends Component {
         this.recalculatePrice();
     }
 
-     changeAmountIngredientHandler = (type, sign) => {
+    changeAmountIngredientHandler = (type, sign) => {
         const updatedIngredients = Object.assign({}, this.state.ingredients);
         updatedIngredients[type] = updatedIngredients[type] + (1 * sign);
         if (updatedIngredients[type] >= 0) {
@@ -38,11 +38,11 @@ class BurgerBuilder extends Component {
     }
 
     recalculatePrice = () => {
-        const entries = Object.entries(this.state.ingredients);
-        const newTotalPrice = entries.reduce((prev, cur) => {
+        const ingredientsAsList = Object.entries(this.state.ingredients);
+        const newTotalPrice = ingredientsAsList.reduce((prev, cur) => {
             const [type, amount] = cur;
-            const priceItem = amount * INGREDIENT_PRICES[type];
-            return prev + priceItem;
+            const itemPrice = amount * INGREDIENT_PRICES[type];
+            return prev + itemPrice;
         }, INGREDIENT_PRICES['bread']);
         this.setState({totalPrice: newTotalPrice});
     }
@@ -64,7 +64,7 @@ class BurgerBuilder extends Component {
                     burgerPrice={this.state.totalPrice}
                 />
             </React.Fragment>
-        )
+        );
     }
 }
 
