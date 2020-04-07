@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Burger} from '../../components/Burger/Burger';
 import {BuildControls} from '../../components/BuildControls/BuildControls';
+import {OrderSummary} from '../../components/OrderSummary/OrderSummary';
+import {Modal} from '../../components/UI/Modal/Modal';
 
 const INGREDIENT_PRICES = {
     bread: 2,
@@ -19,11 +21,24 @@ class BurgerBuilder extends Component {
             salad: 0,
             cheese: 1,
         },
-        totalPrice: INGREDIENT_PRICES['bread']
+        totalPrice: INGREDIENT_PRICES['bread'],
+        purchasable: null,
+        purchasing: false,
     }
 
     componentDidMount() {
         this.recalculatePrice();
+        this.updatePurchaseState();
+    }
+
+    updatePurchaseState = () => {
+        const ingredients = this.state.ingredients;
+        const ingredientsSum = Object.values(ingredients).reduce(((a, b) => a + b), 0);
+        this.setState({purchasable: ingredientsSum > 0});
+    }
+
+    purchaseHandler = (isPurchasing) => {
+        this.setState({purchasing: isPurchasing});
     }
 
     changeAmountIngredientHandler = (type, sign) => {
@@ -32,9 +47,13 @@ class BurgerBuilder extends Component {
         if (updatedIngredients[type] >= 0) {
             this.setState(
                 {ingredients: updatedIngredients},
-                () => this.recalculatePrice()
+                () => {
+                    this.recalculatePrice();
+                    this.updatePurchaseState();
+                },
             );
         }
+
     }
 
     recalculatePrice = () => {
@@ -56,12 +75,20 @@ class BurgerBuilder extends Component {
 
         return (
             <React.Fragment>
+                <Modal
+                    show={this.state.purchasing}
+                    modalClosed={this.purchaseHandler}
+                >
+                    <OrderSummary ingredients={this.state.ingredients}/>
+                </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls
                     ingredientTypes={ingredientTypes}
                     ingredientAmountChanged={this.changeAmountIngredientHandler}
                     disabledInfo={disabledInfo}
                     burgerPrice={this.state.totalPrice}
+                    purchasable={this.state.purchasable}
+                    ordered={this.purchaseHandler}
                 />
             </React.Fragment>
         );

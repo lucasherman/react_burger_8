@@ -8,7 +8,14 @@ const ARITHMETIC_SIGNS = {
     subtract: -1,
 };
 
-const BuildControls = ({ingredientTypes, ingredientAmountChanged, disabledInfo, burgerPrice}) => {
+const BuildControls = ({
+       ingredientTypes,
+       ingredientAmountChanged,
+       disabledInfo,
+       burgerPrice,
+       purchasable,
+       ordered,
+    }) => {
 
     const ingredientTypesData = ingredientTypes.map((ingredientType) => {
         return {
@@ -34,6 +41,12 @@ const BuildControls = ({ingredientTypes, ingredientAmountChanged, disabledInfo, 
         <div className={classes.BuildControls}>
             <p>Burger Price: <strong>{burgerPrice}</strong></p>
             {buildControls}
+            <button
+                className={classes.OrderButton}
+                disabled={!purchasable}
+                onClick={() => ordered(true)}
+            >ORDER NOW
+            </button>
         </div>
     );
 }
