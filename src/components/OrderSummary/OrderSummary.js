@@ -1,7 +1,8 @@
 import React from 'react';
+import {Button} from '../UI/Button/Button';
 
-const OrderSummary = (props) => {
-    const ingredientsArrayData = Object.entries(props.ingredients);
+const OrderSummary = ({ingredients, price, purchaseCanceled, purchaseContinued}) => {
+    const ingredientsArrayData = Object.entries(ingredients);
     const ingredientsSummary = ingredientsArrayData.map((ingredient) => {
         const [type, amount] = ingredient;
         return (
@@ -18,7 +19,10 @@ const OrderSummary = (props) => {
             <ul>
                 {ingredientsSummary}
             </ul>
+            <p><strong>Total Price: {price.toFixed(2)}</strong></p>
             <p>Continue to Checkout?</p>
+            <Button btnType="Danger" clicked={purchaseCanceled}>CANCEL</Button>
+            <Button btnType="Success" clicked={purchaseContinued}>CONTINUE</Button>
         </React.Fragment>
     )
 

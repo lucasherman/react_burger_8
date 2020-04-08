@@ -39,7 +39,7 @@ const BuildControls = ({
 
     return (
         <div className={classes.BuildControls}>
-            <p>Burger Price: <strong>{burgerPrice}</strong></p>
+            <p>Burger Price: <strong>{burgerPrice.toFixed(2)}</strong></p>
             {buildControls}
             <button
                 className={classes.OrderButton}
