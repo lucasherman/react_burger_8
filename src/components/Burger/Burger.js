@@ -4,7 +4,8 @@ import {BurgerIngredient} from "./BurgerIngredient/BurgerIngredient";
 
 const Burger = (props) => {
 
-    const ingredientsAsList = Object.entries(props.ingredients)
+    console.log(props.ingredients);
+    const ingredientsAsList = Object.entries(props.ingredients);
     const ingredientLayers = ingredientsAsList.reduce((prev, cur) => {
         let [type, number] = cur;
         let newCur = [].concat(...Array(number).fill([type]));
@@ -27,4 +28,4 @@ const Burger = (props) => {
     );
 };
 
-export {Burger};
+export { Burger };
